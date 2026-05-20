@@ -1,9 +1,9 @@
 use gpui::*;
 
 pub const BACKGROUND: Rgba = Rgba {
-    r: 82.0 / 255.0,
-    g: 82.0 / 255.0,
-    b: 92.0 / 255.0,
+    r: 24.0 / 255.0,
+    g: 24.0 / 255.0,
+    b: 27.0 / 255.0,
     a: 1.0,
 };
 
@@ -14,6 +14,7 @@ pub const CARD: Rgba = Rgba {
     a: 1.0,
 };
 
+#[allow(dead_code)]
 pub const SURFACE: Rgba = Rgba {
     r: 0x18 as f32 / 255.0,
     g: 0x18 as f32 / 255.0,
@@ -21,6 +22,7 @@ pub const SURFACE: Rgba = Rgba {
     a: 1.0,
 };
 
+#[allow(dead_code)]
 pub const BORDER: Rgba = Rgba {
     r: 0x2a as f32 / 255.0,
     g: 0x2a as f32 / 255.0,
@@ -42,6 +44,7 @@ pub const TEXT_MUTED: Rgba = Rgba {
     a: 1.0,
 };
 
+#[allow(dead_code)]
 pub const ACCENT: Rgba = Rgba {
     r: 0x3b as f32 / 255.0,
     g: 0x82 as f32 / 255.0,

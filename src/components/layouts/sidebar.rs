@@ -4,7 +4,7 @@ use gpui_component::{
     h_flex,
     list::ListItem,
     tree::{tree, TreeItem, TreeState},
-    ActiveTheme as _, IconName,
+    ActiveTheme as _, IconName, StyledExt,
 };
 
 #[derive(IntoElement)]
@@ -73,9 +73,11 @@ impl RenderOnce for SideBar {
                     .gap_2()
                     .child(
                         div()
-                            .px_2()
-                            .text_size(px(12.0))
+                            .py_1()
                             .text_color(cx.theme().muted_foreground)
+                            .font_bold()
+                            .border_b_1()
+                            .border_color(cx.theme().muted)
                             .child(self.title),
                     )
                     .child(
@@ -95,9 +97,10 @@ impl RenderOnce for SideBar {
                                 .w_full()
                                 .rounded(cx.theme().radius)
                                 .px_2()
-                                .text_color(theme::colors::TEXT)
+                                .text_color(cx.theme().muted_foreground)
                                 .pl(px(16.0) * entry.depth() + px(8.0))
                                 .selected(selected)
+                                .font_semibold()
                                 .child(
                                     h_flex()
                                         .gap_2()

@@ -13,13 +13,13 @@ pub struct RootWindow {
 impl RootWindow {
     pub fn new() -> Self {
         Self {
-            title: "Pyew GPUI".into(),
+            title: "Pyew".into(),
         }
     }
 }
 
 impl Render for RootWindow {
-    fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+    fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         div()
             .flex()
             .flex_col()

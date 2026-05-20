@@ -1,5 +1,7 @@
 use gpui::*;
-use gpui_component::{menu::AppMenuBar, ActiveTheme as _, TitleBar as ComponentTitleBar};
+use gpui_component::{
+    menu::AppMenuBar, ActiveTheme as _, StyledExt, TitleBar as ComponentTitleBar,
+};
 
 use crate::theme;
 
@@ -22,6 +24,8 @@ impl RenderOnce for TitleBar {
             .child(
                 div()
                     .text_color(cx.theme().primary_foreground)
+                    .font_bold()
+                    .italic()
                     .child(self.title),
             )
             .child(

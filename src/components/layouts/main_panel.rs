@@ -3,12 +3,12 @@ use crate::theme;
 use gpui::*;
 
 pub struct MainPanel {
-    title: SharedString,
+    _title: SharedString,
 }
 
 impl MainPanel {
     pub fn new(title: SharedString) -> Self {
-        Self { title }
+        Self { _title: title }
     }
 }
 
