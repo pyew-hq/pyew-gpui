@@ -28,7 +28,7 @@ pub struct AppState {
 pub struct AppStateInner {
     pub app_db: RwLock<Option<DbConn>>,
     #[allow(dead_code)]
-pub connection_pools: RwLock<HashMap<i64, ConnectionPool>>,
+    pub connection_pools: RwLock<HashMap<i64, ConnectionPool>>,
 }
 
 impl Global for AppState {}
@@ -44,25 +44,25 @@ impl AppState {
     }
 
     #[allow(dead_code)]
-pub async fn add_connection_pool(&self, pool: ConnectionPool) {
+    pub async fn add_connection_pool(&self, pool: ConnectionPool) {
         let mut pools = self.inner.connection_pools.write().await;
         pools.insert(pool.connection_id, pool);
     }
 
     #[allow(dead_code)]
-pub async fn remove_connection_pool(&self, connection_id: i64) {
+    pub async fn remove_connection_pool(&self, connection_id: i64) {
         let mut pools = self.inner.connection_pools.write().await;
         pools.remove(&connection_id);
     }
 
     #[allow(dead_code)]
-pub async fn get_connection_pool(&self, connection_id: i64) -> Option<ConnectionPool> {
+    pub async fn get_connection_pool(&self, connection_id: i64) -> Option<ConnectionPool> {
         let pools = self.inner.connection_pools.read().await;
         pools.get(&connection_id).cloned()
     }
 
     #[allow(dead_code)]
-pub async fn get_app_db_connection(&self) -> Result<DbConn, String> {
+    pub async fn get_app_db_connection(&self) -> Result<DbConn, String> {
         let read_guard = self.inner.app_db.read().await;
         read_guard
             .clone()

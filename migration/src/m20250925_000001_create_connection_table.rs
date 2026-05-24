@@ -11,23 +11,10 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Connection::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(Connection::Id)
-                            .integer()
-                            .not_null()
-                            .auto_increment()
-                            .primary_key(),
-                    )
-                    .col(ColumnDef::new(Connection::WorkspaceId).integer().not_null())
+                    .col(ColumnDef::new(Connection::Id).uuid().primary_key())
+                    .col(ColumnDef::new(Connection::WorkspaceId).uuid().not_null())
                     .col(ColumnDef::new(Connection::ConnectionName).string().null())
-                    .col(ColumnDef::new(Connection::DatabaseName).string().null())
-                    .col(ColumnDef::new(Connection::DbType).string().not_null())
-                    .col(ColumnDef::new(Connection::Host).string().null())
-                    .col(ColumnDef::new(Connection::Port).integer().null())
-                    .col(ColumnDef::new(Connection::Username).string().null())
-                    .col(ColumnDef::new(Connection::Password).string().null()) // ⚠️ Store encrypted!
-                    .col(ColumnDef::new(Connection::FilePath).string().null())
-                    .col(ColumnDef::new(Connection::ExtraParams).json().null())
+                    .col(ColumnDef::new(Connection::ConnectionConfig).json().not_null())
                     .col(
                         ColumnDef::new(Connection::LastConnectedAt)
                             .timestamp()
@@ -58,15 +45,8 @@ enum Connection {
     Table,
     Id,
     WorkspaceId,
-    DatabaseName,
     ConnectionName,
-    DbType,
-    Host,
-    Port,
-    Username,
-    Password,
-    FilePath,
-    ExtraParams,
+    ConnectionConfig,
     LastConnectedAt,
     CreatedAt,
     UpdatedAt,

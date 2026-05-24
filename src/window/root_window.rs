@@ -44,5 +44,6 @@ impl Render for RootWindow {
                         ),
                 ),
             )
+            .child(div().h_5())
     }
 }

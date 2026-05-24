@@ -11,13 +11,8 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Preference::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(Preference::Key)
-                            .string()
-                            .not_null()
-                            .primary_key(),
-                    )
-                    .col(ColumnDef::new(Preference::WorkspaceId).integer().not_null())
+                    .col(ColumnDef::new(Preference::Key).uuid().primary_key())
+                    .col(ColumnDef::new(Preference::WorkspaceId).uuid().not_null())
                     .col(ColumnDef::new(Preference::Value).json().not_null())
                     .col(ColumnDef::new(Preference::CreatedAt).timestamp().null())
                     .col(ColumnDef::new(Preference::UpdatedAt).timestamp().null())

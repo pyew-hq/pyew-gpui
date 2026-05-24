@@ -26,7 +26,7 @@ impl RenderOnce for TitleBar {
                     .text_color(cx.theme().primary_foreground)
                     .font_bold()
                     .italic()
-                    .child(self.title),
+                    .child(div().text_sm().font_bold().child(self.title)),
             )
             .child(
                 div()

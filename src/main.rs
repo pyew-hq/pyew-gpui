@@ -1,4 +1,6 @@
 mod components;
+mod entity;
+mod services;
 mod state;
 mod theme;
 mod utils;
@@ -30,7 +32,9 @@ fn main() {
         cx.set_global(state);
 
         // Spawn task to initialize the database
-        cx.background_executor().spawn(init_db(state_for_db.clone())).detach();
+        cx.background_executor()
+            .spawn(init_db(state_for_db.clone()))
+            .detach();
 
         // Open the root window
         cx.open_window(WindowOptions::default(), |window, cx| {

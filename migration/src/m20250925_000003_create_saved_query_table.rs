@@ -11,18 +11,8 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(SavedQuery::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(SavedQuery::Id)
-                            .integer()
-                            .auto_increment()
-                            .not_null()
-                            .primary_key(),
-                    )
-                    .col(
-                        ColumnDef::new(SavedQuery::ConnectionId)
-                            .integer()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(SavedQuery::Id).uuid().primary_key())
+                    .col(ColumnDef::new(SavedQuery::ConnectionId).uuid().not_null())
                     .col(ColumnDef::new(SavedQuery::WorkspaceId).integer().not_null())
                     .col(ColumnDef::new(SavedQuery::Title).string().not_null())
                     .col(ColumnDef::new(SavedQuery::QueryText).text().not_null())

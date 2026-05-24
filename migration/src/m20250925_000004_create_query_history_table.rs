@@ -11,23 +11,9 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(QueryHistory::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(QueryHistory::Id)
-                            .integer()
-                            .auto_increment()
-                            .not_null()
-                            .primary_key(),
-                    )
-                    .col(
-                        ColumnDef::new(QueryHistory::ConnectionId)
-                            .integer()
-                            .not_null(),
-                    )
-                    .col(
-                        ColumnDef::new(QueryHistory::WorkspaceId)
-                            .integer()
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(QueryHistory::Id).uuid().primary_key())
+                    .col(ColumnDef::new(QueryHistory::ConnectionId).uuid().not_null())
+                    .col(ColumnDef::new(QueryHistory::WorkspaceId).uuid().not_null())
                     .col(ColumnDef::new(QueryHistory::QueryText).text().not_null())
                     .col(
                         ColumnDef::new(QueryHistory::ExecutedAt)

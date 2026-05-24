@@ -1,10 +1,13 @@
+use crate::components::connection::connection_window::ConnectionWindow;
 use crate::theme;
 use gpui::*;
+use gpui_component::Root;
 use gpui_component::{
+    button::Button,
     h_flex,
     list::ListItem,
     tree::{tree, TreeItem, TreeState},
-    ActiveTheme as _, IconName, StyledExt,
+    ActiveTheme as _, Icon, IconName, StyledExt,
 };
 
 #[derive(IntoElement)]
@@ -78,7 +81,33 @@ impl RenderOnce for SideBar {
                             .font_bold()
                             .border_b_1()
                             .border_color(cx.theme().muted)
-                            .child(self.title),
+                            .flex()
+                            .justify_between()
+                            .items_center()
+                            .child(self.title)
+                            .child(
+                                Button::new("Add New Connection")
+                                    .icon(Icon::new(IconName::Plus))
+                                    .on_click(|_, _, cx| {
+                                        cx.open_window(
+                                            WindowOptions {
+                                                window_bounds: Some(WindowBounds::centered(
+                                                    size(px(650.0), px(650.0)),
+                                                    cx,
+                                                )),
+                                                window_background:
+                                                    WindowBackgroundAppearance::Transparent,
+                                                ..Default::default()
+                                            },
+                                            |window, cx| {
+                                                let view =
+                                                    cx.new(|cx| ConnectionWindow::new(window, cx));
+                                                cx.new(|cx| Root::new(view, window, cx))
+                                            },
+                                        )
+                                        .expect("Failed to open connection window");
+                                    }),
+                            ),
                     )
                     .child(
                         tree(&tree_state, |ix, entry, selected, _window, cx| {

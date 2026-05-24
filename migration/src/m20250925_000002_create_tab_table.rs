@@ -11,15 +11,9 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Tab::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(Tab::Id)
-                            .integer()
-                            .auto_increment()
-                            .not_null()
-                            .primary_key(),
-                    )
-                    .col(ColumnDef::new(Tab::ConnectionId).integer().not_null())
-                    .col(ColumnDef::new(Tab::WorkspaceId).integer().not_null())
+                    .col(ColumnDef::new(Tab::Id).uuid().primary_key())
+                    .col(ColumnDef::new(Tab::ConnectionId).uuid().not_null())
+                    .col(ColumnDef::new(Tab::WorkspaceId).uuid().not_null())
                     .col(ColumnDef::new(Tab::Title).string().not_null())
                     .col(ColumnDef::new(Tab::QueryText).text().not_null())
                     .col(ColumnDef::new(Tab::CursorPosition).integer().default(0))

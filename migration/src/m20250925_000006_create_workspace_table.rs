@@ -11,13 +11,7 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Workspace::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(Workspace::Id)
-                            .integer()
-                            .auto_increment()
-                            .not_null()
-                            .primary_key(),
-                    )
+                    .col(ColumnDef::new(Workspace::Id).uuid().primary_key())
                     .col(ColumnDef::new(Workspace::Name).string().not_null())
                     .col(ColumnDef::new(Workspace::IsOpened).boolean().null())
                     .col(ColumnDef::new(Workspace::LastOpened).timestamp().null())
