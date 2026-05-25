@@ -10,11 +10,33 @@ use gpui::*;
 use gpui_component::Root;
 use window::root_window::RootWindow;
 
-use crate::{state::app_state::AppState, utils::local_data::initialize_local_db};
+use crate::{
+    services::workspace::WorkspaceService, state::app_state::AppState,
+    utils::local_data::initialize_local_db,
+};
 
 async fn init_db(state: AppState) {
-    if let Ok(db_conn) = initialize_local_db().await {
-        state.set_app_db_connection(db_conn).await;
+    let runtime = match tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+    {
+        Ok(runtime) => runtime,
+        Err(error) => {
+            eprintln!("Failed to create Tokio runtime for local database: {error}");
+            return;
+        }
+    };
+
+    match runtime.block_on(initialize_local_db()) {
+        Ok(db_conn) => {
+            match runtime.block_on(WorkspaceService::get_or_create_opened_workspace(&db_conn)) {
+                Ok(workspace) => runtime.block_on(state.set_opened_workspace(workspace)),
+                Err(error) => eprintln!("Failed to fetch opened workspace: {error:?}"),
+            }
+
+            runtime.block_on(state.set_app_db_connection(db_conn));
+        }
+        Err(error) => eprintln!("Failed to initialize local database: {error:?}"),
     }
 }
 

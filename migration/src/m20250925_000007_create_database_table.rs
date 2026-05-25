@@ -46,7 +46,11 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(DatabaseObject::Id).uuid().primary_key())
                     .col(ColumnDef::new(DatabaseObject::DatabaseId).uuid().not_null())
                     .col(ColumnDef::new(DatabaseObject::Name).string().not_null())
-                    .col(ColumnDef::new(DatabaseObject::ObjectType).string().not_null()) // table, view, function, trigger, etc.
+                    .col(
+                        ColumnDef::new(DatabaseObject::ObjectType)
+                            .string()
+                            .not_null(),
+                    ) // table, view, function, trigger, etc.
                     .col(ColumnDef::new(DatabaseObject::Definition).text()) // SQL source code
                     .col(ColumnDef::new(DatabaseObject::Metadata).json_binary()) // JSON for columns, params, etc.
                     .col(
@@ -61,14 +65,17 @@ impl MigrationTrait for Migration {
                             .to(Database::Table, Database::Id)
                             .on_delete(ForeignKeyAction::Cascade),
                     )
-                    // Index for fast searching by name and filtering by type
-                    .index(
-                        Index::create()
-                            .name("idx-database-object-name-type")
-                            .table(DatabaseObject::Table)
-                            .col(DatabaseObject::Name)
-                            .col(DatabaseObject::ObjectType),
-                    )
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .create_index(
+                Index::create()
+                    .name("idx-database-object-name-type")
+                    .table(DatabaseObject::Table)
+                    .col(DatabaseObject::Name)
+                    .col(DatabaseObject::ObjectType)
                     .to_owned(),
             )
             .await
@@ -78,7 +85,7 @@ impl MigrationTrait for Migration {
         manager
             .drop_table(Table::drop().table(DatabaseObject::Table).to_owned())
             .await?;
-            
+
         manager
             .drop_table(Table::drop().table(Database::Table).to_owned())
             .await

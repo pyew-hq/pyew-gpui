@@ -1,4 +1,4 @@
-use crate::components::connection::connection_window::ConnectionWindow;
+use crate::components::connection::connection::ConnectionWindow;
 use crate::theme;
 use gpui::*;
 use gpui_component::Root;
@@ -64,7 +64,8 @@ impl RenderOnce for SideBar {
 
         div()
             .size_full()
-            .p_2()
+            .px_2()
+            .py_1()
             .bg(theme::colors::CARD)
             .rounded_lg()
             .text_color(theme::colors::TEXT)

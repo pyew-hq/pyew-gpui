@@ -1,3 +1,4 @@
+use crate::entity::workspace;
 use gpui::Global;
 use sea_orm::DbConn;
 use std::{collections::HashMap, sync::Arc};
@@ -27,6 +28,7 @@ pub struct AppState {
 
 pub struct AppStateInner {
     pub app_db: RwLock<Option<DbConn>>,
+    pub opened_workspace: RwLock<Option<workspace::Model>>,
     #[allow(dead_code)]
     pub connection_pools: RwLock<HashMap<i64, ConnectionPool>>,
 }
@@ -38,6 +40,7 @@ impl AppState {
         Self {
             inner: Arc::new(AppStateInner {
                 app_db: RwLock::new(None),
+                opened_workspace: RwLock::new(None),
                 connection_pools: RwLock::new(HashMap::new()),
             }),
         }
@@ -72,6 +75,19 @@ impl AppState {
     pub async fn set_app_db_connection(&self, db: DbConn) {
         let mut write_guard = self.inner.app_db.write().await;
         *write_guard = Some(db);
+    }
+
+    #[allow(dead_code)]
+    pub async fn get_opened_workspace(&self) -> Result<workspace::Model, String> {
+        let read_guard = self.inner.opened_workspace.read().await;
+        read_guard
+            .clone()
+            .ok_or_else(|| "Opened workspace not initialized yet".to_string())
+    }
+
+    pub async fn set_opened_workspace(&self, workspace: workspace::Model) {
+        let mut write_guard = self.inner.opened_workspace.write().await;
+        *write_guard = Some(workspace);
     }
 }
 

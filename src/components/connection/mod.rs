@@ -1,1 +1,1 @@
-pub mod connection_window;
+pub mod connection;
