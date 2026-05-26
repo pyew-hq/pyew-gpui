@@ -5382,6 +5382,7 @@ dependencies = [
  "log",
  "migration",
  "rmp-serde",
+ "rust-embed",
  "sea-orm",
  "serde",
  "serde_json",

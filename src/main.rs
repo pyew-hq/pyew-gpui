@@ -11,8 +11,9 @@ use gpui_component::Root;
 use window::root_window::RootWindow;
 
 use crate::{
-    services::workspace::WorkspaceService, state::app_state::AppState,
-    utils::local_data::initialize_local_db,
+    services::workspace::WorkspaceService,
+    state::app_state::AppState,
+    utils::{app_icon::Assets, local_data::initialize_local_db},
 };
 
 async fn init_db(state: AppState) {
@@ -41,7 +42,7 @@ async fn init_db(state: AppState) {
 }
 
 fn main() {
-    let app = gpui_platform::application().with_assets(gpui_component_assets::Assets);
+    let app = gpui_platform::application().with_assets(Assets);
 
     let state = AppState::new();
     let state_for_db = state.clone();

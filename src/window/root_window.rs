@@ -1,3 +1,4 @@
+use crate::components::layouts::activity_bar::ActivityBar;
 use crate::components::layouts::main_panel::MainPanel;
 use crate::components::layouts::sidebar::SideBar;
 use crate::components::layouts::titlebar::TitleBar;
@@ -30,12 +31,7 @@ impl Render for RootWindow {
             .child(
                 div().size_full().p_1().pt_0().child(
                     h_resizable("main-layout")
-                        .child(
-                            resizable_panel()
-                                .w_1_4()
-                                .mr_1()
-                                .child(SideBar::new("Databases".into())),
-                        )
+                        .child(resizable_panel().w_1_4().mr_1().child(SideBar::new()))
                         .child(
                             div()
                                 .size_full()
@@ -44,6 +40,6 @@ impl Render for RootWindow {
                         ),
                 ),
             )
-            .child(div().h_5())
+            .child(ActivityBar::new())
     }
 }
