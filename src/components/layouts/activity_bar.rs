@@ -2,7 +2,7 @@ use crate::{theme, utils::app_icon::AppIcon};
 use gpui::*;
 use gpui_component::{
     button::{Button, ButtonVariants},
-    ActiveTheme, Icon,
+    ActiveTheme, Icon, Sizable,
 };
 
 #[derive(IntoElement)]
@@ -32,18 +32,19 @@ impl RenderOnce for ActivityBar {
                     .items_center()
                     .gap_1()
                     .child(
-                        Button::new("activity-database").ghost().icon(
+                        Button::new("activity-database").ghost().small().icon(
                             Icon::new(AppIcon::Database).text_color(cx.theme().muted_foreground),
                         ),
                     )
                     .child(
-                        Button::new("activity-history").ghost().icon(
+                        Button::new("activity-history").ghost().small().icon(
                             Icon::new(AppIcon::History).text_color(cx.theme().muted_foreground),
                         ),
                     )
                     .child(
                         Button::new("activity-saved-query")
                             .ghost()
+                            .small()
                             .icon(Icon::new(AppIcon::Save).text_color(cx.theme().muted_foreground)),
                     ),
             )
@@ -52,14 +53,14 @@ impl RenderOnce for ActivityBar {
                     .flex()
                     .items_center()
                     .gap_3()
-                    .child(
-                        Button::new("language")
-                            .ghost()
-                            .text_xs()
-                            .text_color(cx.theme().muted_foreground)
-                            .child("SQL")
-                            .icon(Icon::new(AppIcon::Code)),
-                    )
+                    // .child(
+                    //     Button::new("language")
+                    //         .ghost()
+                    //         .small()
+                    //         .text_color(cx.theme().muted_foreground)
+                    //         .label("SQL")
+                    //         .icon(Icon::new(AppIcon::Code)),
+                    // )
                     .child("0 cells")
                     .child("0 cols")
                     // .child("Count 0")
@@ -67,6 +68,7 @@ impl RenderOnce for ActivityBar {
                     .child(
                         Button::new("AI")
                             .ghost()
+                            .small()
                             .icon(Icon::new(AppIcon::Ai).text_color(cx.theme().muted_foreground)),
                     ),
             )

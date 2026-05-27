@@ -4,6 +4,7 @@ use crate::{
     services::connection::ConnectionService,
     state::app_state::AppState,
     theme,
+    utils::app_icon::AppIcon,
 };
 use gpui::prelude::FluentBuilder as _;
 use gpui::*;
@@ -153,7 +154,7 @@ impl Render for ConnectionSideBar {
                                     .child(
                                         Button::new("Refresh Connections")
                                             .ghost()
-                                            .icon(Icon::new(IconName::Replace))
+                                            .icon(Icon::new(AppIcon::Refresh))
                                             .on_click(cx.listener(|this, _, _, cx| {
                                                 this.refresh(cx);
                                             })),

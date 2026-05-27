@@ -36,6 +36,7 @@ pub enum AppIcon {
     Save,
     History,
     Code,
+    Refresh,
 }
 
 impl IconNamed for AppIcon {
@@ -46,7 +47,32 @@ impl IconNamed for AppIcon {
             Self::Save => "icons/save.svg",
             Self::History => "icons/history.svg",
             Self::Code => "icons/code.svg",
+            Self::Refresh => "icons/refresh.svg",
         }
         .into()
+    }
+}
+
+pub struct CombinedAssets<A, B>(pub A, pub B);
+
+impl<A, B> AssetSource for CombinedAssets<A, B>
+where
+    A: AssetSource,
+    B: AssetSource,
+{
+    fn load(&self, path: &str) -> Result<Option<Cow<'static, [u8]>>> {
+        // Try the first source; if it returns None or an error, try the second
+        match self.0.load(path) {
+            Ok(Some(asset)) => Ok(Some(asset)),
+            _ => self.1.load(path),
+        }
+    }
+
+    fn list(&self, path: &str) -> Result<Vec<SharedString>> {
+        let mut list = self.0.list(path).unwrap_or_default();
+        if let Ok(extra) = self.1.list(path) {
+            list.extend(extra);
+        }
+        Ok(list)
     }
 }
